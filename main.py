@@ -51,11 +51,11 @@ def get_data(args):
     print("Press " + Fore.CYAN + start_stop_key + Fore.RESET + " to toggle clicker")
     return press, start_stop_key
 
-def main(argv):
+def main():
     """main function
     :returns: None
     """
-    press, start_stop_key = get_data()
+    press, start_stop_key = get_data(argv)
     auto_press(press, start_stop_key)
     
 if __name__ == "__main__":
