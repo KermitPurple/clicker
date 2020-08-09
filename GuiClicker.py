@@ -15,7 +15,7 @@ class GuiClicker(Ui_AutoClicker):
 
     def toggle_running(self):
         self.running = not self.running
-        print(self.running)
+        self.OnOff.setText("On" if self.running else "OFF")
 
     def run(self, win):
         while win.isActiveWindow():
