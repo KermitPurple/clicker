@@ -5,14 +5,9 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 class GuiClicker(Ui_AutoClicker):
-    def __init__(self):
-        self.running = True
-
     def run(self, win):
-        while self.running:
-            print('h1')
-            if not win.isActiveWindow():
-                self.running = False
+        while win.isActiveWindow():
+            print('1')
 
 def main():
     app = QApplication(sys.argv)
