@@ -3,13 +3,7 @@ import mouse
 import keyboard
 from colorama import Fore, init
 import sys
-from gui import Ui_AutoClicker
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow
 init(autoreset=True)
-
-class GuiClicker(Ui_AutoClicker):
-    pass
 
 def auto_press(press, start_stop_key):
     """TODO: Docstring for auto_press.
@@ -61,14 +55,8 @@ def main():
     """main function
     :returns: None
     """
-    # press, start_stop_key = get_data(sys.argv)
-    # auto_press(press, start_stop_key)
-    app = QApplication(sys.argv)
-    win = QMainWindow()
-    gui = GuiClicker()
-    gui.setupUi(win)
-    win.show()
-    sys.exit(app.exec_())
+    press, start_stop_key = get_data(sys.argv)
+    auto_press(press, start_stop_key)
 
 if __name__ == "__main__":
     main()
