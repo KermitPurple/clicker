@@ -2,14 +2,20 @@ import time
 import mouse
 import keyboard
 from colorama import Fore, init
-from sys import argv
+import sys
+from gui import Ui_AutoClicker
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow
 init(autoreset=True)
+
+class GuiClicker(Ui_AutoClicker):
+    pass
 
 def auto_press(press, start_stop_key):
     """TODO: Docstring for auto_press.
 
-    :press_fn: TODO
-    :trigger: TODO
+    :press: TODO
+    :start_stop_key: TODO
     :returns: None
 
     """
@@ -30,21 +36,21 @@ def get_data(args):
     :returns: key press function and trigger key
 
     """
-    # argv[1] is the key to be repeated and
-    # argv[2] is the key that triggers it
+    # sys.argv[1] is the key to be repeated and
+    # sys.argv[2] is the key that triggers it
     start_stop_key = 'ctrl+shift'
-    if len(argv) > 1:
-        if argv[1] == '-l':
+    if len(sys.argv) > 1:
+        if sys.argv[1] == '-l':
             press = lambda: mouse.click()
             print(Fore.CYAN + "left click" + Fore.RESET + " selected")
-        elif argv[1] == '-r':
+        elif sys.argv[1] == '-r':
             press = lambda: mouse.right_click()
             print(Fore.CYAN + "right click" + Fore.RESET + " selected")
         else:
-            press = lambda: keyboard.send(argv[1])
-            print(Fore.CYAN + argv[1] + Fore.RESET + " selected")
-        if len(argv) > 2:
-            start_stop_key = argv[2]
+            press = lambda: keyboard.send(sys.argv[1])
+            print(Fore.CYAN + sys.argv[1] + Fore.RESET + " selected")
+        if len(sys.argv) > 2:
+            start_stop_key = sys.argv[2]
     else:
         press = lambda: mouse.click()
         print(Fore.CYAN + "left click" + Fore.RESET + " selected")
@@ -55,8 +61,14 @@ def main():
     """main function
     :returns: None
     """
-    press, start_stop_key = get_data(argv)
-    auto_press(press, start_stop_key)
-    
+    # press, start_stop_key = get_data(sys.argv)
+    # auto_press(press, start_stop_key)
+    app = QApplication(sys.argv)
+    win = QMainWindow()
+    gui = GuiClicker()
+    gui.setupUi(win)
+    win.show()
+    sys.exit(app.exec_())
+
 if __name__ == "__main__":
     main()
