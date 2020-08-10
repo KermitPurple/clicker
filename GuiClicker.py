@@ -20,7 +20,7 @@ class GuiClicker(Ui_AutoClicker):
 
     def toggle_running(self):
         self.running = not self.running
-        self.OnOff.setText("On" if self.running else "OFF")
+        self.OnOff.setText("ON" if self.running else "OFF")
 
     def change_toggle_key(self):
         try:
@@ -39,7 +39,10 @@ class GuiClicker(Ui_AutoClicker):
                 elif self.RightClick.isChecked():
                     mouse.right_click()
                 else:
-                    keyboard.send(self.PressText.text())
+                    try:
+                        keyboard.send(self.PressText.text())
+                    except:
+                        pass
 
 class Window(QMainWindow):
     def closeEvent(self, event):

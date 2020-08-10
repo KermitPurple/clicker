@@ -66,4 +66,4 @@ class Ui_AutoClicker(object):
         self.RightClick.setText(_translate("AutoClicker", "Right Click"))
         self.label.setText(_translate("AutoClicker", "Output"))
         self.label_2.setText(_translate("AutoClicker", "Toggle Key"))
-        self.OnOff.setText(_translate("AutoClicker", "ON"))
+        self.OnOff.setText(_translate("AutoClicker", "OFF"))
