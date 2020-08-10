@@ -1,9 +1,12 @@
+import time
 import sys
 import threading
 import keyboard, mouse
 from gui import Ui_AutoClicker
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
+
+thread_running = True
 
 class GuiClicker(Ui_AutoClicker):
     def __init__(self):
@@ -17,24 +20,29 @@ class GuiClicker(Ui_AutoClicker):
         self.running = not self.running
         self.OnOff.setText("On" if self.running else "OFF")
 
-    def run(self, win):
-        while win.isActiveWindow():
+    def run(self):
+        while thread_running:
+            time.sleep(0.002)
             if self.running:
                 if self.LeftClick.isChecked():
                     mouse.click()
-                    print("LeftClick")
                 elif self.RightClick.isChecked():
                     mouse.right_click()
                 else:
                     keyboard.send(self.PressText.text())
 
+class Window(QMainWindow):
+    def closeEvent(self, event):
+        global thread_running
+        thread_running = False
+
 def main():
     app = QApplication(sys.argv)
-    win = QMainWindow()
+    win = Window()
     gui = GuiClicker()
     gui.setupUi(win)
     win.show()
-    th = threading.Thread(target = gui.run, args=(win,))
+    th = threading.Thread(target = gui.run)
     th.start()
     sys.exit(app.exec_())
 
