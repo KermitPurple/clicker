@@ -6,8 +6,6 @@ from gui import Ui_AutoClicker
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
-thread_running = True
-
 class GuiClicker(Ui_AutoClicker):
     def __init__(self):
         self.running = False
@@ -30,8 +28,8 @@ class GuiClicker(Ui_AutoClicker):
         keyboard.remove_hotkey(self.toggle_key)
         self.toggle_key = new_toggle_key
 
-    def run(self):
-        while thread_running:
+    def run(self, win):
+        while win.thread_running:
             time.sleep(0.002)
             if self.running:
                 if self.LeftClick.isChecked():
@@ -45,9 +43,12 @@ class GuiClicker(Ui_AutoClicker):
                         pass
 
 class Window(QMainWindow):
+    def __init__(self):
+        QMainWindow.__init__(self)
+        self.thread_running = True
+
     def closeEvent(self, event):
-        global thread_running
-        thread_running = False
+        self.thread_running = False
 
 def main():
     app = QApplication(sys.argv)
@@ -55,7 +56,7 @@ def main():
     gui = GuiClicker()
     gui.setupUi(win)
     win.show()
-    th = threading.Thread(target = gui.run)
+    th = threading.Thread(target = gui.run, args=(win,))
     th.start()
     sys.exit(app.exec_())
 
