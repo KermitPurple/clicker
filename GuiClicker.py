@@ -4,7 +4,7 @@ import threading
 import keyboard, mouse
 from gui import Ui_AutoClicker
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
 class GuiClicker(Ui_AutoClicker):
     def __init__(self):
@@ -15,6 +15,9 @@ class GuiClicker(Ui_AutoClicker):
         self.ToggleButton.clicked.connect(self.toggle_running)
         self.toggle_key = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
         self.TriggerText.textChanged.connect(self.change_toggle_key)
+        self.bg = QButtonGroup()
+        self.bg.addButton(self.LeftClick, 1)
+        self.bg.addButton(self.RightClick, 2)
 
     def toggle_running(self):
         self.running = not self.running
