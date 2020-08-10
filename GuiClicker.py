@@ -15,6 +15,7 @@ class GuiClicker(Ui_AutoClicker):
     def setupUi(self, win):
         Ui_AutoClicker.setupUi(self, win)
         self.ToggleButton.clicked.connect(self.toggle_running)
+        keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
 
     def toggle_running(self):
         self.running = not self.running
