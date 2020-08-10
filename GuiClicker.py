@@ -15,11 +15,20 @@ class GuiClicker(Ui_AutoClicker):
     def setupUi(self, win):
         Ui_AutoClicker.setupUi(self, win)
         self.ToggleButton.clicked.connect(self.toggle_running)
-        keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
+        self.toggle_key = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
+        self.TriggerText.textChanged.connect(self.change_toggle_key)
 
     def toggle_running(self):
         self.running = not self.running
         self.OnOff.setText("On" if self.running else "OFF")
+
+    def change_toggle_key(self):
+        try:
+            new_toggle_key = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
+        except:
+            return
+        keyboard.remove_hotkey(self.toggle_key)
+        self.toggle_key = new_toggle_key
 
     def run(self):
         while thread_running:
