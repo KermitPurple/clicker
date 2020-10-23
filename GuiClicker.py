@@ -15,9 +15,8 @@ class GuiClicker(Ui_AutoClicker):
         self.ToggleButton.clicked.connect(self.toggle_running)
         self.toggle_key = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
         self.TriggerText.textChanged.connect(self.change_toggle_key)
-        self.bg = QButtonGroup()
-        self.bg.addButton(self.LeftClick, 1)
-        self.bg.addButton(self.RightClick, 2)
+        self.LeftClick.stateChanged.connect(lambda: self.PseudoExclusive(self.LeftClick, self.RightClick))
+        self.RightClick.stateChanged.connect(lambda: self.PseudoExclusive(self.RightClick, self.LeftClick))
 
     def toggle_running(self):
         self.running = not self.running
@@ -30,6 +29,11 @@ class GuiClicker(Ui_AutoClicker):
             return
         keyboard.remove_hotkey(self.toggle_key)
         self.toggle_key = new_toggle_key
+
+    @staticmethod
+    def PseudoExclusive(b1, b2):
+        if b1.checkState():
+            b2.setCheckState(False)
 
     def run(self, win):
         while win.thread_running:
