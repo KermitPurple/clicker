@@ -3,8 +3,14 @@ import sys
 import threading
 import keyboard, mouse
 from gui import Ui_AutoClicker
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QButtonGroup
+
+if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+    QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+
+if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+    QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 class GuiClicker(Ui_AutoClicker):
     def __init__(self):
