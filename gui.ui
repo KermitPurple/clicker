@@ -64,7 +64,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#333}</string>
+     <string notr="true">QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#666;border:2px solid #888}</string>
     </property>
     <property name="text">
      <string>space</string>

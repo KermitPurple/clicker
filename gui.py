@@ -32,7 +32,7 @@ class Ui_AutoClicker(object):
         self.ToggleButton.setObjectName("ToggleButton")
         self.PressText = QtWidgets.QLineEdit(self.centralwidget)
         self.PressText.setGeometry(QtCore.QRect(130, 40, 113, 20))
-        self.PressText.setStyleSheet("QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#333}")
+        self.PressText.setStyleSheet("QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#666;border:2px solid #888}")
         self.PressText.setObjectName("PressText")
         self.TriggerText = QtWidgets.QLineEdit(self.centralwidget)
         self.TriggerText.setGeometry(QtCore.QRect(260, 40, 113, 20))
