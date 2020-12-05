@@ -123,6 +123,7 @@ def main():
     gui = GuiClicker() # get the gui clicker object
     gui.setupUi(win) # set up the clicker object
     win.show() # show the window
+    # a thread is used to not freeze application
     th = threading.Thread(target = gui.run, args=(win,)) # create a thread with program
     th.start() # run thread
     sys.exit(app.exec_()) # exit
