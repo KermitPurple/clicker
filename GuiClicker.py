@@ -25,9 +25,12 @@ class GuiClicker(Ui_AutoClicker):
     def change_toggle_key(self):
         try:
             new_toggle_key = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
+            self.TriggerText.setStyleSheet("background:white;color:black;")
         except:
+            self.TriggerText.setStyleSheet("background:red;color:white;")
             return
-        keyboard.remove_hotkey(self.toggle_key)
+        if(new_toggle_key != self.toggle_key):
+            keyboard.remove_hotkey(self.toggle_key)
         self.toggle_key = new_toggle_key
 
     @staticmethod
