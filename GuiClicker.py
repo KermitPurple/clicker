@@ -6,6 +6,9 @@ from gui import Ui_AutoClicker
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
+success_style_sheet = "background:white;color:black;"
+error_style_sheet = "background:red;color:white;"
+
 class GuiClicker(Ui_AutoClicker):
     def __init__(self):
         self.running = False
@@ -15,6 +18,7 @@ class GuiClicker(Ui_AutoClicker):
         self.ToggleButton.clicked.connect(self.toggle_running)
         self.toggle_key = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
         self.TriggerText.textChanged.connect(self.change_toggle_key)
+        self.PressText.textChanged.connect(self.change_press_text)
         self.LeftClick.stateChanged.connect(lambda: self.PseudoExclusive(self.LeftClick, self.RightClick))
         self.RightClick.stateChanged.connect(lambda: self.PseudoExclusive(self.RightClick, self.LeftClick))
 
@@ -22,12 +26,20 @@ class GuiClicker(Ui_AutoClicker):
         self.running = not self.running
         self.OnOff.setText("ON" if self.running else "OFF")
 
+    def change_press_text(self):
+        try:
+            keyboard.parse_hotkey(self.PressText.text())
+            self.PressText.setStyleSheet(success_style_sheet)
+        except:
+            self.PressText.setStyleSheet(error_style_sheet)
+
+
     def change_toggle_key(self):
         try:
             new_toggle_key = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
-            self.TriggerText.setStyleSheet("background:white;color:black;")
+            self.TriggerText.setStyleSheet(success_style_sheet)
         except:
-            self.TriggerText.setStyleSheet("background:red;color:white;")
+            self.TriggerText.setStyleSheet(error_style_sheet)
             return
         if(new_toggle_key != self.toggle_key):
             keyboard.remove_hotkey(self.toggle_key)
