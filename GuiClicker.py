@@ -6,8 +6,8 @@ from gui import Ui_AutoClicker
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
-success_style_sheet = "background:white;color:black;"
-error_style_sheet = "background:red;color:white;"
+success_style_sheet = "QLineEdit{background:#1c1c1c;}QLineEdit:disabled{background:#555;color:#888}"
+error_style_sheet = "QLineEdit{background:red}QLineEdit:disabled{background:#550000;color:#833}"
 green_text_style_sheet = "color:green;"
 red_text_style_sheet = "color:red;"
 
