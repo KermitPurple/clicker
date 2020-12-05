@@ -16,7 +16,8 @@ class GuiClicker(Ui_AutoClicker):
     def setupUi(self, win):
         Ui_AutoClicker.setupUi(self, win)
         self.ToggleButton.clicked.connect(self.toggle_running)
-        self.toggle_key = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
+        self.toggle_key = self.TriggerText.text()
+        keyboard.add_hotkey(self.toggle_key, self.toggle_running)
         self.TriggerText.textChanged.connect(self.change_toggle_key)
         self.PressText.textChanged.connect(self.change_press_text)
         self.LeftClick.stateChanged.connect(lambda: self.PseudoExclusive(self.LeftClick, self.RightClick))
@@ -36,14 +37,15 @@ class GuiClicker(Ui_AutoClicker):
 
     def change_toggle_key(self):
         try:
-            new_toggle_key = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_running)
+            new_toggle_key = self.TriggerText.text()
+            print(new_toggle_key, self.toggle_key)
+            if(new_toggle_key != self.toggle_key):
+                keyboard.add_hotkey(new_toggle_key, self.toggle_running)
+                keyboard.remove_hotkey(self.toggle_key)
+                self.toggle_key = new_toggle_key
             self.TriggerText.setStyleSheet(success_style_sheet)
         except:
             self.TriggerText.setStyleSheet(error_style_sheet)
-            return
-        if(new_toggle_key != self.toggle_key):
-            keyboard.remove_hotkey(self.toggle_key)
-        self.toggle_key = new_toggle_key
 
     @staticmethod
     def PseudoExclusive(b1, b2):
