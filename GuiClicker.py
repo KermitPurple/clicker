@@ -8,6 +8,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
 success_style_sheet = "background:white;color:black;"
 error_style_sheet = "background:red;color:white;"
+green_text_style_sheet = "color:green;"
+red_text_style_sheet = "color:red;"
 
 class GuiClicker(Ui_AutoClicker):
     """
@@ -18,13 +20,13 @@ class GuiClicker(Ui_AutoClicker):
         """
         Constructor
         """
-        self.running = False # not running
 
     def setupUi(self, win):
         """
         Call unctions neccisary to set up Ui
         """
         Ui_AutoClicker.setupUi(self, win) # call set up from inherited class
+        self.set_running(False) # set running to false
         self.ToggleButton.clicked.connect(self.toggle_running) # make toggle button toggle running
         self.toggle_key = self.TriggerText.text() # get toggle key
         keyboard.add_hotkey(self.toggle_key, self.toggle_running) # add hotkey to toggle running at toggle key
@@ -34,12 +36,23 @@ class GuiClicker(Ui_AutoClicker):
         self.RightClick.stateChanged.connect(lambda: self.PseudoExclusive(self.RightClick, self.LeftClick)) # button state is changed call PseudoExclusive
         self.PseudoExclusive(self.LeftClick, self.RightClick) # call PseudoExclusive on left and right click button
 
+    def set_running(self, b):
+        """
+        Set the running boolean
+        """
+        self.running = b # set running to b
+        if self.running:
+            self.OnOff.setText("ON") # change text in OnOff label
+            self.OnOff.setStyleSheet(green_text_style_sheet) # set color green
+        else:
+            self.OnOff.setText("OFF") # change text in OnOff label
+            self.OnOff.setStyleSheet(red_text_style_sheet) # set color red
+
     def toggle_running(self):
         """
         toggle the running boolean and change text
         """
-        self.running = not self.running # If running is true set it to false; if running is false set it to true
-        self.OnOff.setText("ON" if self.running else "OFF") # change text in OnOff label
+        self.set_running(not self.running)
 
     def change_press_text(self):
         """
