@@ -38,7 +38,6 @@ class GuiClicker(Ui_AutoClicker):
     def change_toggle_key(self):
         try:
             new_toggle_key = self.TriggerText.text()
-            print(new_toggle_key, self.toggle_key)
             if(new_toggle_key != self.toggle_key):
                 keyboard.add_hotkey(new_toggle_key, self.toggle_running)
                 keyboard.remove_hotkey(self.toggle_key)
