@@ -22,6 +22,7 @@ class GuiClicker(Ui_AutoClicker):
         self.PressText.textChanged.connect(self.change_press_text)
         self.LeftClick.stateChanged.connect(lambda: self.PseudoExclusive(self.LeftClick, self.RightClick))
         self.RightClick.stateChanged.connect(lambda: self.PseudoExclusive(self.RightClick, self.LeftClick))
+        self.PseudoExclusive(self.LeftClick, self.RightClick)
 
     def toggle_running(self):
         self.running = not self.running
@@ -46,10 +47,12 @@ class GuiClicker(Ui_AutoClicker):
         except:
             self.TriggerText.setStyleSheet(error_style_sheet)
 
-    @staticmethod
-    def PseudoExclusive(b1, b2):
+    def PseudoExclusive(self, b1, b2):
         if b1.checkState():
             b2.setCheckState(False)
+            self.PressText.setDisabled(True)
+        else:
+            self.PressText.setDisabled(False)
 
     def run(self, win):
         while win.thread_running:
