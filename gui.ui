@@ -64,7 +64,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit{background:#1c1c1c;}QLineEdit:disabled{background:#555;color:#888}</string>
+     <string notr="true">QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#333}</string>
     </property>
     <property name="text">
      <string>space</string>
@@ -80,7 +80,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit{background:#1c1c1c;}QLineEdit:disabled{background:#333}</string>
+     <string notr="true">QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#333}</string>
     </property>
     <property name="text">
      <string>ctrl+shift</string>
