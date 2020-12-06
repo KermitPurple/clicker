@@ -8,8 +8,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
 success_style_sheet = "QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#666;border:2px solid #888}"
 error_style_sheet = "QLineEdit{background:red;border:2px solid #a55;}QLineEdit:disabled{background:#550000;color:#833}"
-green_text_style_sheet = "color:green;"
-red_text_style_sheet = "color:red;"
+green_text_style_sheet = "QLabel{color:green;}"
+red_text_style_sheet = "QLabel{color:red;}"
 
 class GuiClicker(Ui_AutoClicker):
     """
