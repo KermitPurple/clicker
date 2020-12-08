@@ -41,10 +41,10 @@
    <widget class="QPushButton" name="ToggleButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>10</y>
-      <width>111</width>
-      <height>101</height>
+      <width>51</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -179,6 +179,21 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QDoubleSpinBox{background:#1c1c1c;border: 2px solid #555;}QDoubleSpinBox:disabled{background:#333}</string>
+    </property>
+    <property name="buttonSymbols">
+     <enum>QAbstractSpinBox::UpDownArrows</enum>
+    </property>
+    <property name="specialValueText">
+     <string/>
+    </property>
+    <property name="accelerated">
+     <bool>false</bool>
+    </property>
+    <property name="correctionMode">
+     <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+    </property>
+    <property name="suffix">
+     <string>s</string>
     </property>
     <property name="decimals">
      <number>6</number>
