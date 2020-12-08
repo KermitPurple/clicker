@@ -12,6 +12,9 @@ green_text_style_sheet = "QLabel{color:green;}"
 red_text_style_sheet = "QLabel{color:red;}"
 
 class ToggleThread(QtCore.QThread):
+    """
+    Thread class that is used to run a function syncronously from a thread such as the hotkeys from keyboard or the while loop thread
+    """
     signal = QtCore.pyqtSignal('PyQt_PyObject')
 
     def __init__(self):
@@ -25,10 +28,11 @@ class GuiClicker(Ui_AutoClicker):
     Inherit Ui_AutoClicker
     runs an autoclicker program
     """
-    def __init__(self):
+    def __init__(self, win):
         """
         Constructor
         """
+        self.setupUi(win) #set up the ui
 
     def setupUi(self, win):
         """
@@ -144,8 +148,7 @@ def main():
         QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv) # get application object
     win = Window() # get window object
-    gui = GuiClicker() # get the gui clicker object
-    gui.setupUi(win) # set up the clicker object
+    gui = GuiClicker(win) # get the gui clicker object
     win.show() # show the window
     # a thread is used to not freeze application
     th = threading.Thread(target = gui.run, args=(win,)) # create a thread with program
