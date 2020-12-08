@@ -41,12 +41,12 @@ class GuiClicker(Ui_AutoClicker):
         Set the running boolean
         """
         self.running = b # set running to b
-        if self.running:
-            self.OnOff.setText("ON") # change text in OnOff label
-            self.OnOff.setStyleSheet(green_text_style_sheet) # set color green
-        else:
-            self.OnOff.setText("OFF") # change text in OnOff label
-            self.OnOff.setStyleSheet(red_text_style_sheet) # set color red
+        # if self.running: # qt objects are not thread safe
+        #     self.OnOff.setText("ON") # change text in OnOff label
+        #     self.OnOff.setStyleSheet(green_text_style_sheet) # set color green
+        # else:
+        #     self.OnOff.setText("OFF") # change text in OnOff label
+        #     self.OnOff.setStyleSheet(red_text_style_sheet) # set color red
 
     def toggle_running(self):
         """
@@ -59,7 +59,9 @@ class GuiClicker(Ui_AutoClicker):
         check if hotkey in PressText is valid and change StyleSheet accordingly
         """
         try:
-            keyboard.parse_hotkey(self.PressText.text()) # fails if text is invalid
+            text = self.PressText.text()
+            keyboard.parse_hotkey(text) # fails if text is invalid
+            self.text = text
             self.PressText.setStyleSheet(success_style_sheet) # set to non fail colorscheme
         except:
             self.PressText.setStyleSheet(error_style_sheet) # set to fail colorscheme
@@ -101,10 +103,7 @@ class GuiClicker(Ui_AutoClicker):
                 elif self.RightClick.isChecked(): # if right click is checked
                     mouse.right_click() # right click
                 else: # if neither of the clicks are enabled
-                    try:
-                        keyboard.send(self.PressText.text()) # try to send the text in PressText
-                    except:
-                        pass
+                    keyboard.send(self.text) # try to send the text in PressText
 
 class Window(QMainWindow):
     """
