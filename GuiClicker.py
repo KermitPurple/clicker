@@ -52,7 +52,7 @@ class GuiClicker(Ui_AutoClicker):
         keyboard.add_hotkey(self.toggle_key, self.thread.run) # add hotkey to toggle running at run thread
         self.text = self.PressText.text() # get text to print
 
-    def set_running(self, b):
+    def set_running(self, b): # do not call in a thread or may crash
         """
         Set the running boolean
         """
