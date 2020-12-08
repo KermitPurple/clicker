@@ -42,16 +42,21 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
+      <y>10</y>
       <width>111</width>
-      <height>71</height>
+      <height>101</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">background:#1c1c1c</string>
     </property>
     <property name="text">
-     <string>Toggle</string>
+     <string>Off</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="PressText">
@@ -148,24 +153,6 @@
     </property>
     <property name="text">
      <string>Toggle Key</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="OnOff">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>10</y>
-      <width>61</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>OFF</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">

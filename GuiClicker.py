@@ -8,8 +8,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
 success_style_sheet = "QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#666;border:2px solid #888}"
 error_style_sheet = "QLineEdit{background:red;border:2px solid #a55;}QLineEdit:disabled{background:#550000;color:#833}"
-green_text_style_sheet = "QLabel{color:green;}"
-red_text_style_sheet = "QLabel{color:red;}"
+green_text_style_sheet = "QPushButton{color:green;background:#1c1c1c;border: 2px solid #555;}"
+red_text_style_sheet = "QPushButton{color:red;background:#1c1c1c;border: 2px solid #555;}"
 
 class ToggleThread(QtCore.QThread):
     """
@@ -58,11 +58,11 @@ class GuiClicker(Ui_AutoClicker):
         """
         self.running = b # set running to b
         if self.running: # qt objects are not thread safe
-            self.OnOff.setText("ON") # change text in OnOff label
-            self.OnOff.setStyleSheet(green_text_style_sheet) # set color green
+            self.ToggleButton.setText("ON") # change text in OnOff label
+            self.ToggleButton.setStyleSheet(green_text_style_sheet) # set color green
         else:
-            self.OnOff.setText("OFF") # change text in OnOff label
-            self.OnOff.setStyleSheet(red_text_style_sheet) # set color red
+            self.ToggleButton.setText("OFF") # change text in OnOff label
+            self.ToggleButton.setStyleSheet(red_text_style_sheet) # set color red
 
     def toggle_running(self):
         """
