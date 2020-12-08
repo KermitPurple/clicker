@@ -94,7 +94,7 @@ class GuiClicker(Ui_AutoClicker):
         Run the main loop
         """
         while win.thread_running: # while the program is running
-            time.sleep(0.002) # wait
+            time.sleep(self.DelayBox.value()) # wait
             if self.running: # if the clicker is on
                 if self.LeftClick.isChecked(): # if left click is checked
                     mouse.click() # click
