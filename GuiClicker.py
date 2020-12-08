@@ -11,6 +11,15 @@ error_style_sheet = "QLineEdit{background:red;border:2px solid #a55;}QLineEdit:d
 green_text_style_sheet = "QLabel{color:green;}"
 red_text_style_sheet = "QLabel{color:red;}"
 
+class ToggleThread(QtCore.QThread):
+    signal = QtCore.pyqtSignal('PyQt_PyObject')
+
+    def __init__(self):
+        QtCore.QThread.__init__(self)
+
+    def run(self):
+        self.signal.emit(None)
+
 class GuiClicker(Ui_AutoClicker):
     """
     Inherit Ui_AutoClicker
@@ -29,24 +38,27 @@ class GuiClicker(Ui_AutoClicker):
         self.set_running(False) # set running to false
         self.ToggleButton.clicked.connect(self.toggle_running) # make toggle button toggle running
         self.toggle_key = self.TriggerText.text() # get toggle key
-        keyboard.add_hotkey(self.toggle_key, self.toggle_running) # add hotkey to toggle running at toggle key
         self.TriggerText.textChanged.connect(self.change_toggle_key) # when trigger text is changed update toggle key
         self.PressText.textChanged.connect(self.change_press_text) # when press text is changed update press text
         self.LeftClick.stateChanged.connect(lambda: self.PseudoExclusive(self.LeftClick, self.RightClick)) # when button state is changed call PseudoExclusive
         self.RightClick.stateChanged.connect(lambda: self.PseudoExclusive(self.RightClick, self.LeftClick)) # button state is changed call PseudoExclusive
         self.PseudoExclusive(self.LeftClick, self.RightClick) # call PseudoExclusive on left and right click button
+        self.thread = ToggleThread() # new thread
+        self.thread.signal.connect(self.toggle_running) # when thread is run, call self.toggle_running synchronously
+        keyboard.add_hotkey(self.toggle_key, self.thread.run) # add hotkey to toggle running at run thread
+        self.text = self.PressText.text() # get text to print
 
     def set_running(self, b):
         """
         Set the running boolean
         """
         self.running = b # set running to b
-        # if self.running: # qt objects are not thread safe
-        #     self.OnOff.setText("ON") # change text in OnOff label
-        #     self.OnOff.setStyleSheet(green_text_style_sheet) # set color green
-        # else:
-        #     self.OnOff.setText("OFF") # change text in OnOff label
-        #     self.OnOff.setStyleSheet(red_text_style_sheet) # set color red
+        if self.running: # qt objects are not thread safe
+            self.OnOff.setText("ON") # change text in OnOff label
+            self.OnOff.setStyleSheet(green_text_style_sheet) # set color green
+        else:
+            self.OnOff.setText("OFF") # change text in OnOff label
+            self.OnOff.setStyleSheet(red_text_style_sheet) # set color red
 
     def toggle_running(self):
         """
@@ -74,7 +86,7 @@ class GuiClicker(Ui_AutoClicker):
         try:
             new_toggle_key = self.TriggerText.text() # read new toggle key
             if(new_toggle_key != self.toggle_key): # if toggle key isnt the same
-                keyboard.add_hotkey(new_toggle_key, self.toggle_running) # add new hotkey
+                keyboard.add_hotkey(new_toggle_key, self.thread.run) # add new hotkey
                 keyboard.remove_hotkey(self.toggle_key) # remove previous hotkey
                 self.toggle_key = new_toggle_key # update current hotkey to new hotkey
             self.TriggerText.setStyleSheet(success_style_sheet) # set success color
