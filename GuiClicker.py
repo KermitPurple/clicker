@@ -32,6 +32,7 @@ class GuiClicker(Ui_AutoClicker):
         """
         Constructor
         """
+        self.count = 0
         self.setupUi(win) #set up the ui
 
     def setupUi(self, win):
@@ -51,6 +52,19 @@ class GuiClicker(Ui_AutoClicker):
         self.thread.signal.connect(self.toggle_running) # when thread is run, call self.toggle_running synchronously
         keyboard.add_hotkey(self.toggle_key, self.thread.run) # add hotkey to toggle running at run thread
         self.text = self.PressText.text() # get text to print
+        self.repeat_forever = self.InfiniteRepetitionsBox.isChecked()
+        self.InfiniteRepetitionsBox.stateChanged.connect(self.update_repetitions_box)
+        self.repetitions = self.RepetitionsBox.value()
+        self.RepetitionsBox.valueChanged.connect(self.update_repetitions)
+
+    def update_repetitions(self):
+        self.repetitions = self.RepetitionsBox.value()
+        print(self.repetitions)
+
+    def update_repetitions_box(self):
+        self.repeat_forever = self.InfiniteRepetitionsBox.isChecked()
+        self.RepetitionsBox.setEnabled(not self.repeat_forever)
+        print('On' if self.repeat_forever else 'Off')
 
     def set_running(self, b): # do not call in a thread or may crash
         """
@@ -120,6 +134,11 @@ class GuiClicker(Ui_AutoClicker):
                     mouse.right_click() # right click
                 else: # if neither of the clicks are enabled
                     keyboard.send(self.text) # try to send the text in PressText
+                if not self.repeat_forever:
+                    self.count += 1
+                    if self.count >= self.repetitions:
+                        self.count = 0
+                        self.thread.run()
 
 class Window(QMainWindow):
     """
