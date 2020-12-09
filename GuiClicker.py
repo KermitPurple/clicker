@@ -22,7 +22,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         """
         Constructor
         """
-        QtCore.QThread.__init__(self)
+        super().__init__()
         self.count = 0
         self.setupUi(win) #set up the ui
 
