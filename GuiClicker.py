@@ -40,7 +40,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.RightClick.stateChanged.connect(lambda: self.PseudoExclusive(self.RightClick, self.LeftClick)) # button state is changed call PseudoExclusive
         self.PseudoExclusive(self.LeftClick, self.RightClick) # call PseudoExclusive on left and right click button
         self.toggle_signal.connect(self.toggle_running) # when thread is run, call self.toggle_running synchronously
-        keyboard.add_hotkey(self.toggle_key, self.toggle_signal.emit, None) # add hotkey to toggle running at run thread
+        keyboard.add_hotkey(self.toggle_key, self.toggle_signal.emit) # add hotkey to toggle running at run thread
         self.text = self.PressText.text() # get text to print
         self.repeat_forever = self.InfiniteRepetitionsBox.isChecked()
         self.InfiniteRepetitionsBox.stateChanged.connect(self.update_repetitions_box)
@@ -92,7 +92,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         try:
             new_toggle_key = self.TriggerText.text() # read new toggle key
             if(new_toggle_key != self.toggle_key): # if toggle key isnt the same
-                keyboard.add_hotkey(new_toggle_key, self.toggle_signal.emit, None) # add new hotkey
+                keyboard.add_hotkey(new_toggle_key, self.toggle_signal.emit) # add new hotkey
                 keyboard.remove_hotkey(self.toggle_key) # remove previous hotkey
                 self.toggle_key = new_toggle_key # update current hotkey to new hotkey
             self.TriggerText.setStyleSheet(success_style_sheet) # set success color
