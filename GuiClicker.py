@@ -6,24 +6,24 @@ from gui import Ui_AutoClicker
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
-success_style_sheet = "QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#666;border:2px solid #888}"
-error_style_sheet = "QLineEdit{background:red;border:2px solid #a55;}QLineEdit:disabled{background:#550000;color:#833}"
-green_text_style_sheet = "QPushButton{color:green;background:#1c1c1c;border: 2px solid #555;}"
-red_text_style_sheet = "QPushButton{color:red;background:#1c1c1c;border: 2px solid #555;}"
+success_style_sheet = "QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#666;border:2px solid #888}" # colors to set QLineEdit to on success
+error_style_sheet = "QLineEdit{background:red;border:2px solid #a55;}QLineEdit:disabled{background:#550000;color:#833}" # colors to set QLineEdit to on error
+green_text_style_sheet = "QPushButton{color:green;background:#1c1c1c;border: 2px solid #555;}" # colors to set QPushButton when self.running is true
+red_text_style_sheet = "QPushButton{color:red;background:#1c1c1c;border: 2px solid #555;}" # colors to set QPushButton when self.running is false
 
 class GuiClicker(Ui_AutoClicker, QtCore.QThread):
     """
     Inherit Ui_AutoClicker
     runs an autoclicker program
     """
-    toggle_signal = QtCore.pyqtSignal()
+    toggle_signal = QtCore.pyqtSignal() # signal to toggle self.running
 
     def __init__(self, win):
         """
         Constructor
         """
         super().__init__()
-        self.count = 0
+        self.count = 0 # how many clicks have happened; only if self.repeat_forever is false
         self.setupUi(win) #set up the ui
 
     def setupUi(self, win):
@@ -42,17 +42,18 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.toggle_signal.connect(self.toggle_running) # when thread is run, call self.toggle_running synchronously
         keyboard.add_hotkey(self.toggle_key, self.toggle_signal.emit) # add hotkey to toggle running at run thread
         self.text = self.PressText.text() # get text to print
-        self.repeat_forever = self.InfiniteRepetitionsBox.isChecked()
-        self.InfiniteRepetitionsBox.stateChanged.connect(self.update_repetitions_box)
-        self.repetitions = self.RepetitionsBox.value()
-        self.RepetitionsBox.valueChanged.connect(self.update_repetitions)
+        self.repeat_forever = self.InfiniteRepetitionsBox.isChecked() # repeats forever if box is checked
+        self.InfiniteRepetitionsBox.stateChanged.connect(self.update_repetitions_box) # update repeats forever when box is changed
+        self.repetitions = self.RepetitionsBox.value() # get number of repititions
+        self.RepetitionsBox.valueChanged.connect(self.update_repetitions) # get the number of repititions when the number changes
 
     def update_repetitions(self):
-        self.repetitions = self.RepetitionsBox.value()
+        self.repetitions = self.RepetitionsBox.value() # save value
 
     def update_repetitions_box(self):
-        self.repeat_forever = self.InfiniteRepetitionsBox.isChecked()
-        self.RepetitionsBox.setEnabled(not self.repeat_forever)
+        self.repeat_forever = self.InfiniteRepetitionsBox.isChecked() # get the check box value
+        self.RepetitionsBox.setEnabled(not self.repeat_forever) # disable if box is checked
+        self.count = 0 # restart count
 
     def set_running(self, b): # do not call in a thread or may crash
         """
@@ -62,7 +63,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         if self.running: # qt objects are not thread safe
             self.ToggleButton.setText("ON") # change text in OnOff label
             self.ToggleButton.setStyleSheet(green_text_style_sheet) # set color green
-        else:
+        else: # if self.runnning is false
             self.ToggleButton.setText("OFF") # change text in OnOff label
             self.ToggleButton.setStyleSheet(red_text_style_sheet) # set color red
 
@@ -70,16 +71,16 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         """
         toggle the running boolean and change text
         """
-        self.set_running(not self.running)
+        self.set_running(not self.running) # set running to opposite of running
 
     def change_press_text(self):
         """
         check if hotkey in PressText is valid and change StyleSheet accordingly
         """
         try:
-            text = self.PressText.text()
+            text = self.PressText.text() # get text
             keyboard.parse_hotkey(text) # fails if text is invalid
-            self.text = text
+            self.text = text # if the text doesn't fail save it 
             self.PressText.setStyleSheet(success_style_sheet) # set to non fail colorscheme
         except:
             self.PressText.setStyleSheet(error_style_sheet) # set to fail colorscheme
@@ -122,11 +123,11 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
                     mouse.right_click() # right click
                 else: # if neither of the clicks are enabled
                     keyboard.send(self.text) # try to send the text in PressText
-                if not self.repeat_forever:
-                    self.count += 1
-                    if self.count >= self.repetitions:
-                        self.count = 0
-                        self.toggle_signal.emit()
+                if not self.repeat_forever: # if it is not an infinite clicking loop
+                    self.count += 1 # increment count
+                    if self.count >= self.repetitions: # if the count is higher than max count
+                        self.count = 0 # reset count
+                        self.toggle_signal.emit() # emit signal causing self.running to toggle
 
 class Window(QMainWindow):
     """
