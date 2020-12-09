@@ -108,5 +108,5 @@ class Ui_AutoClicker(object):
         self.label_2.setText(_translate("AutoClicker", "Toggle Key"))
         self.label_3.setText(_translate("AutoClicker", "Delay time"))
         self.DelayBox.setSuffix(_translate("AutoClicker", "s"))
-        self.label_4.setText(_translate("AutoClicker", "Repititions"))
+        self.label_4.setText(_translate("AutoClicker", "Repetitions"))
         self.InfiniteRepetitionsBox.setText(_translate("AutoClicker", "Infinite"))

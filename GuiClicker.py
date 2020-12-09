@@ -59,12 +59,10 @@ class GuiClicker(Ui_AutoClicker):
 
     def update_repetitions(self):
         self.repetitions = self.RepetitionsBox.value()
-        print(self.repetitions)
 
     def update_repetitions_box(self):
         self.repeat_forever = self.InfiniteRepetitionsBox.isChecked()
         self.RepetitionsBox.setEnabled(not self.repeat_forever)
-        print('On' if self.repeat_forever else 'Off')
 
     def set_running(self, b): # do not call in a thread or may crash
         """
