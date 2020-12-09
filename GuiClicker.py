@@ -126,7 +126,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
                     self.count += 1
                     if self.count >= self.repetitions:
                         self.count = 0
-                        self.toggle_signal.emit(None)
+                        self.toggle_signal.emit()
 
 class Window(QMainWindow):
     """
