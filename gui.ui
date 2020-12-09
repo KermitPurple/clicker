@@ -52,8 +52,11 @@
       <pointsize>18</pointsize>
      </font>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
     <property name="styleSheet">
-     <string notr="true">background:#1c1c1c</string>
+     <string notr="true">QPushButton{background:#1c1c1c;}QPushButton:hover{background:#333}</string>
     </property>
     <property name="text">
      <string>Off</string>
@@ -103,6 +106,9 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
     <property name="text">
      <string>Left Click</string>
     </property>
@@ -121,6 +127,9 @@
       <width>71</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
     </property>
     <property name="text">
      <string>Right Click</string>
@@ -257,6 +266,9 @@
       <width>71</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
     </property>
     <property name="text">
      <string>Infinite</string>

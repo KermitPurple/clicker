@@ -8,8 +8,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
 success_style_sheet = "QLineEdit{background:#1c1c1c;border: 2px solid #555;}QLineEdit:disabled{background:#666;border:2px solid #888}" # colors to set QLineEdit to on success
 error_style_sheet = "QLineEdit{background:red;border:2px solid #a55;}QLineEdit:disabled{background:#550000;color:#833}" # colors to set QLineEdit to on error
-green_text_style_sheet = "QPushButton{color:green;background:#1c1c1c;border: 2px solid #555;}" # colors to set QPushButton when self.running is true
-red_text_style_sheet = "QPushButton{color:red;background:#1c1c1c;border: 2px solid #555;}" # colors to set QPushButton when self.running is false
+green_text_style_sheet = "QPushButton{color:green;background:#1c1c1c;border: 2px solid #555;}QPushButton:hover{background:#252525}" # colors to set QPushButton when self.running is true
+red_text_style_sheet = "QPushButton{color:red;background:#1c1c1c;border: 2px solid #555;}QPushButton:hover{background:#252525}" # colors to set QPushButton when self.running is false
 
 class GuiClicker(Ui_AutoClicker, QtCore.QThread):
     """
