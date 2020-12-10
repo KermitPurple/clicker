@@ -55,6 +55,22 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
     def update_toggle_selection(self):
         self.toggle_selection = self.ToggleBox.currentText()
         self.TriggerText.setEnabled(self.toggle_selection == 'Keyboard')
+        mouse.unhook_all()
+        keyboard.unhook_all()
+        if self.toggle_selection == 'Keyboard':
+            keyboard.add_hotkey(self.toggle_key, self.toggle_signal.emit)
+        else:
+            if self.toggle_selection == 'Left Click':
+                button = mouse.LEFT
+            elif self.toggle_selection == 'Right Click':
+                button = mouse.RIGHT
+            elif self.toggle_selection == 'Middle Click':
+                button = mouse.MIDDLE
+            elif self.toggle_selection == 'Mouse4':
+                button = mouse.X
+            elif self.toggle_selection == 'Mouse5':
+                button = mouse.X2
+            mouse.on_button(self.toggle_signal.emit, buttons = button, types = mouse.UP)
 
     def update_repetitions(self):
         self.repetitions = self.RepetitionsBox.value() # save value
