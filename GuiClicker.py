@@ -36,9 +36,6 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.toggle_key = self.TriggerText.text() # get toggle key
         self.TriggerText.textChanged.connect(self.change_toggle_key) # when trigger text is changed update toggle key
         self.PressText.textChanged.connect(self.change_press_text) # when press text is changed update press text
-        self.LeftClick.stateChanged.connect(lambda: self.PseudoExclusive(self.LeftClick, self.RightClick)) # when button state is changed call PseudoExclusive
-        self.RightClick.stateChanged.connect(lambda: self.PseudoExclusive(self.RightClick, self.LeftClick)) # button state is changed call PseudoExclusive
-        self.PseudoExclusive(self.LeftClick, self.RightClick) # call PseudoExclusive on left and right click button
         self.toggle_signal.connect(self.toggle_running) # when thread is run, call self.toggle_running synchronously
         keyboard.add_hotkey(self.toggle_key, self.toggle_signal.emit) # add hotkey to toggle running at run thread
         self.text = self.PressText.text() # get text to print
@@ -46,6 +43,18 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.InfiniteRepetitionsBox.stateChanged.connect(self.update_repetitions_box) # update repeats forever when box is changed
         self.repetitions = self.RepetitionsBox.value() # get number of repititions
         self.RepetitionsBox.valueChanged.connect(self.update_repetitions) # get the number of repititions when the number changes
+        self.update_output_selection()
+        self.OutputBox.currentIndexChanged.connect(self.update_output_selection)
+        self.update_toggle_selection()
+        self.ToggleBox.currentTextChanged.connect(self.update_toggle_selection)
+
+    def update_output_selection(self):
+        self.output_selection = self.OutputBox.currentText()
+        self.PressText.setEnabled(self.output_selection == 'Keyboard')
+
+    def update_toggle_selection(self):
+        self.toggle_selection = self.ToggleBox.currentText()
+        self.TriggerText.setEnabled(self.toggle_selection == 'Keyboard')
 
     def update_repetitions(self):
         self.repetitions = self.RepetitionsBox.value() # save value
@@ -117,12 +126,12 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         while win.thread_running: # while the program is running
             time.sleep(self.DelayBox.value()) # wait
             if self.running: # if the clicker is on
-                if self.LeftClick.isChecked(): # if left click is checked
-                    mouse.click() # click
-                elif self.RightClick.isChecked(): # if right click is checked
-                    mouse.right_click() # right click
-                else: # if neither of the clicks are enabled
+                if self.output_selection == 'Keyboard':
                     keyboard.send(self.text) # try to send the text in PressText
+                elif self.output_selection == 'Left Click':
+                    mouse.click() # click with the mouse
+                elif self.output_selection == 'Right Click':
+                    mouse.right_click() # right click with the mouse
                 if not self.repeat_forever: # if it is not an infinite clicking loop
                     self.count += 1 # increment count
                     if self.count >= self.repetitions: # if the count is higher than max count
