@@ -49,10 +49,19 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.ToggleBox.currentTextChanged.connect(self.update_toggle_selection) # connect getting value with change in index
 
     def update_output_selection(self):
+        """
+        get output selection
+        set enabled states of PressText
+        """
         self.output_selection = self.OutputBox.currentText() # get value of output box
         self.PressText.setEnabled(self.output_selection == 'Keyboard') # enable press text if keyboard is selected
 
     def update_toggle_selection(self):
+        """
+        get toggle_selection
+        update hotkeys
+        change enabled status of trigger text
+        """
         self.toggle_selection = self.ToggleBox.currentText() # get value of toggle box
         self.TriggerText.setEnabled(self.toggle_selection == 'Keyboard') # enable trigger text if keyboard is selected
         mouse.unhook_all() # remove all mouse hotkeys
@@ -73,9 +82,17 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
             mouse.on_button(self.toggle_signal.emit, buttons = button, types = mouse.UP) # add mouse hotkey
 
     def update_repetitions(self):
+        """
+        save repitions box value
+        """
         self.repetitions = self.RepetitionsBox.value() # save value
 
     def update_repetitions_box(self):
+        """
+        Get new repeat value from RepetitionsBox
+        change enabled status on RepetitionsBox
+        restart count
+        """
         self.repeat_forever = self.InfiniteRepetitionsBox.isChecked() # get the check box value
         self.RepetitionsBox.setEnabled(not self.repeat_forever) # disable if box is checked
         self.count = 0 # restart count
