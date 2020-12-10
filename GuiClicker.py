@@ -39,9 +39,9 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.toggle_signal.connect(self.toggle_running) # when thread is run, call self.toggle_running synchronously
         keyboard.add_hotkey(self.toggle_key, self.toggle_signal.emit) # add hotkey to toggle running at run thread
         self.text = self.PressText.text() # get text to print
-        self.repeat_forever = self.InfiniteRepetitionsBox.isChecked() # repeats forever if box is checked
+        self.update_repetitions_box() # repeats forever if box is checked
         self.InfiniteRepetitionsBox.stateChanged.connect(self.update_repetitions_box) # update repeats forever when box is changed
-        self.repetitions = self.RepetitionsBox.value() # get number of repititions
+        self.update_repetitions() # get number of repititions
         self.RepetitionsBox.valueChanged.connect(self.update_repetitions) # get the number of repititions when the number changes
         self.update_output_selection() # get output_selection value
         self.OutputBox.currentIndexChanged.connect(self.update_output_selection) # connect getting value with change in index
