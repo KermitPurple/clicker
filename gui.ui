@@ -337,6 +337,9 @@
     <property name="focusPolicy">
      <enum>Qt::NoFocus</enum>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QCheckBox:disabled{color:#555}QCheckBox::indicator:disabled{background:#333}</string>
+    </property>
     <property name="text">
      <string>Suppress</string>
     </property>

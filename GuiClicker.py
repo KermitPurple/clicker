@@ -64,7 +64,9 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         change enabled status of trigger text
         """
         self.toggle_selection = self.ToggleBox.currentText() # get value of toggle box
-        self.TriggerText.setEnabled(self.toggle_selection == 'Keyboard') # enable trigger text if keyboard is selected
+        enabled = self.toggle_selection == 'Keyboard'
+        self.TriggerText.setEnabled(enabled) # enable trigger text if keyboard is selected
+        self.SuppressBox.setEnabled(enabled) # enable SuppressBox if keyboard is selected
         mouse.unhook_all() # remove all mouse hotkeys
         keyboard.unhook_all() # remove all keyboard hotkeys
         if self.toggle_selection == 'Keyboard': # if keyboard is selected

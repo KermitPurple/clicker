@@ -104,6 +104,7 @@ class Ui_AutoClicker(object):
         self.SuppressBox.setEnabled(True)
         self.SuppressBox.setGeometry(QtCore.QRect(210, 90, 81, 16))
         self.SuppressBox.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.SuppressBox.setStyleSheet("QCheckBox:disabled{color:#555}QCheckBox::indicator:disabled{background:#333}")
         self.SuppressBox.setChecked(False)
         self.SuppressBox.setObjectName("SuppressBox")
         self.ToggleButton.raise_()
