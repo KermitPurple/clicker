@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>512</width>
-    <height>107</height>
+    <height>132</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -32,7 +32,7 @@
       <x>10</x>
       <y>10</y>
       <width>91</width>
-      <height>71</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="font">
@@ -322,6 +322,28 @@
      </property>
     </item>
    </widget>
+   <widget class="QCheckBox" name="SuppressBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>90</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="text">
+     <string>Suppress</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
    <zorder>ToggleButton</zorder>
    <zorder>PressText</zorder>
    <zorder>TriggerText</zorder>
@@ -334,6 +356,7 @@
    <zorder>ToggleBox</zorder>
    <zorder>OutputBox</zorder>
    <zorder>label_4</zorder>
+   <zorder>SuppressBox</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
