@@ -132,6 +132,12 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
                     mouse.click() # click with the mouse
                 elif self.output_selection == 'Right Click':
                     mouse.right_click() # right click with the mouse
+                elif self.output_selection == 'Middle Click':
+                    mouse.click(mouse.MIDDLE) # middle click
+                elif self.output_selection == 'Mouse4':
+                    mouse.click(mouse.X) # press mouse4
+                elif self.output_selection == 'Mouse5':
+                    mouse.click(mouse.X2) # press mouse5
                 if not self.repeat_forever: # if it is not an infinite clicking loop
                     self.count += 1 # increment count
                     if self.count >= self.repetitions: # if the count is higher than max count
