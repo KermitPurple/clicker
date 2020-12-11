@@ -129,14 +129,19 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         except:
             self.PressText.setStyleSheet(error_style_sheet) # set to fail colorscheme
 
+    def remove_toggle_key(self):
+        """
+        Remove the toggle key if it exists
+        """
+        if self.hotkey != None:
+            keyboard.remove_hotkey(self.hotkey) # remove previous hotkey
 
     def change_toggle_key(self):
         """
         Check if toggle key is valid and update it to a new hotkey
         """
         try:
-            if self.hotkey != None:
-                keyboard.remove_hotkey(self.hotkey) # remove previous hotkey
+            self.remove_toggle_key()
             self.hotkey = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_signal.emit, suppress = self.SuppressBox.isChecked()) # add new hotkey
             self.TriggerText.setStyleSheet(success_style_sheet) # set success color
         except:
