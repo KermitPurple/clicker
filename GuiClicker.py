@@ -47,7 +47,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.OutputBox.currentIndexChanged.connect(self.update_output_selection) # connect getting value with change in index
         self.update_toggle_selection() # get toggle_selection value
         self.ToggleBox.currentTextChanged.connect(self.update_toggle_selection) # connect getting value with change in index
-        self.SuppressBox.stateChanged.connect(lambda: self.change_toggle_key(True))
+        self.SuppressBox.stateChanged.connect(self.change_toggle_key)
 
     def update_output_selection(self):
         """
@@ -212,6 +212,7 @@ def main():
     if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'): # make application look better on high def screen
         QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv) # get application object
+    new_win()
     new_win()
     sys.exit(app.exec_()) # exit
 
