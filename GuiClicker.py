@@ -25,6 +25,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         super().__init__() # call super constructor
         self.count = 0 # how many clicks have happened; only if self.repeat_forever is false
         self.hotkey = None
+        self.mouse_hotkey = None
         self.setupUi(win) #set up the ui
 
     def setupUi(self, win):
@@ -67,22 +68,12 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         enabled = self.toggle_selection == 'Keyboard'
         self.TriggerText.setEnabled(enabled) # enable trigger text if keyboard is selected
         self.SuppressBox.setEnabled(enabled) # enable SuppressBox if keyboard is selected
-        mouse.unhook_all() # remove all mouse hotkeys
         if self.toggle_selection == 'Keyboard': # if keyboard is selected
+            self.remove_toggle_mouse() # remove the mouse hook
             self.change_toggle_key() # set the toggle key
         else: # keyboard is not selected
-            self.remove_toggle_key()
-            if self.toggle_selection == 'Left Click':
-                button = mouse.LEFT
-            elif self.toggle_selection == 'Right Click':
-                button = mouse.RIGHT
-            elif self.toggle_selection == 'Middle Click':
-                button = mouse.MIDDLE
-            elif self.toggle_selection == 'Mouse4':
-                button = mouse.X
-            elif self.toggle_selection == 'Mouse5':
-                button = mouse.X2
-            mouse.on_button(self.toggle_signal.emit, buttons = button, types = mouse.UP) # add mouse hotkey
+            self.remove_toggle_key() # remove hotkey hook
+            self.change_toggle_mouse() # set the mouse hotkey
 
     def update_repetitions(self):
         """
@@ -149,6 +140,31 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         except:
             self.hotkey = None
             self.TriggerText.setStyleSheet(error_style_sheet) # set failure color
+
+    def remove_toggle_mouse(self):
+        """
+        Remove the mouse toggle key if it exists
+        """
+        if self.mouse_hotkey != None:
+            mouse.unhook(self.mouse_hotkey)
+            self.mouse_hotkey
+
+    def change_toggle_mouse(self):
+        """
+        Change the mouse hotkey
+        """
+        self.remove_toggle_mouse()
+        if self.toggle_selection == 'Left Click':
+            button = mouse.LEFT
+        elif self.toggle_selection == 'Right Click':
+            button = mouse.RIGHT
+        elif self.toggle_selection == 'Middle Click':
+            button = mouse.MIDDLE
+        elif self.toggle_selection == 'Mouse4':
+            button = mouse.X
+        elif self.toggle_selection == 'Mouse5':
+            button = mouse.X2
+        self.mouse_hotkey = mouse.on_button(self.toggle_signal.emit, buttons = button, types = mouse.UP) # add mouse hotkey
 
     def PseudoExclusive(self, b1, b2):
         """
