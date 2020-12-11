@@ -39,7 +39,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.PressText.textChanged.connect(self.change_press_text) # when press text is changed update press text
         self.toggle_signal.connect(self.toggle_running) # when thread is run, call self.toggle_running synchronously
         self.change_toggle_key() # set the hotkey
-        self.text = self.PressText.text() # get text to print
+        self.change_press_text() # get self.text
         self.update_repetitions_box() # repeats forever if box is checked
         self.InfiniteRepetitionsBox.stateChanged.connect(self.update_repetitions_box) # update repeats forever when box is changed
         self.update_repetitions() # get number of repititions
