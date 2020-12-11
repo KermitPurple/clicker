@@ -71,6 +71,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         if self.toggle_selection == 'Keyboard': # if keyboard is selected
             self.change_toggle_key() # set the toggle key
         else: # keyboard is not selected
+            self.remove_toggle_key()
             if self.toggle_selection == 'Left Click':
                 button = mouse.LEFT
             elif self.toggle_selection == 'Right Click':
@@ -135,6 +136,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         """
         if self.hotkey != None:
             keyboard.remove_hotkey(self.hotkey) # remove previous hotkey
+            self.hotkey = None
 
     def change_toggle_key(self):
         """
