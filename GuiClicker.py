@@ -197,6 +197,14 @@ class Window(QMainWindow):
         """
         self.thread_running = False # set running to false
 
+def new_win():
+    win = Window() # get window object
+    gui = GuiClicker(win) # get the gui clicker object
+    win.show() # show the window
+    # a thread is used to not freeze application
+    th = threading.Thread(target = gui.run, args=(win,)) # create a thread with program
+    th.start() # run thread
+
 def main():
     """
     Driver code
@@ -206,12 +214,8 @@ def main():
     if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'): # make application look better on high def screen
         QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv) # get application object
-    win = Window() # get window object
-    gui = GuiClicker(win) # get the gui clicker object
-    win.show() # show the window
-    # a thread is used to not freeze application
-    th = threading.Thread(target = gui.run, args=(win,)) # create a thread with program
-    th.start() # run thread
+    new_win()
+    new_win()
     sys.exit(app.exec_()) # exit
 
 if __name__ == "__main__": # if file is run directly
