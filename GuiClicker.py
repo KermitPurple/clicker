@@ -24,6 +24,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         """
         super().__init__() # call super constructor
         self.count = 0 # how many clicks have happened; only if self.repeat_forever is false
+        self.hotkey = None
         self.setupUi(win) #set up the ui
 
     def setupUi(self, win):
@@ -33,11 +34,10 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         Ui_AutoClicker.setupUi(self, win) # call set up from inherited class
         self.set_running(False) # set running to false
         self.ToggleButton.clicked.connect(self.toggle_running) # make toggle button toggle running
-        self.toggle_key = self.TriggerText.text() # get toggle key
         self.TriggerText.textChanged.connect(self.change_toggle_key) # when trigger text is changed update toggle key
         self.PressText.textChanged.connect(self.change_press_text) # when press text is changed update press text
         self.toggle_signal.connect(self.toggle_running) # when thread is run, call self.toggle_running synchronously
-        keyboard.add_hotkey(self.toggle_key, self.toggle_signal.emit, suppress = self.SuppressBox.isChecked()) # add hotkey to toggle running at run thread
+        self.change_toggle_key() # set the hotkey
         self.text = self.PressText.text() # get text to print
         self.update_repetitions_box() # repeats forever if box is checked
         self.InfiniteRepetitionsBox.stateChanged.connect(self.update_repetitions_box) # update repeats forever when box is changed
@@ -68,9 +68,8 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.TriggerText.setEnabled(enabled) # enable trigger text if keyboard is selected
         self.SuppressBox.setEnabled(enabled) # enable SuppressBox if keyboard is selected
         mouse.unhook_all() # remove all mouse hotkeys
-        keyboard.unhook_all() # remove all keyboard hotkeys
         if self.toggle_selection == 'Keyboard': # if keyboard is selected
-            keyboard.add_hotkey(self.toggle_key, self.toggle_signal.emit, suppress = self.SuppressBox.isChecked()) # add keyboard hotkey
+            self.change_toggle_key() # set the toggle key
         else: # keyboard is not selected
             if self.toggle_selection == 'Left Click':
                 button = mouse.LEFT
@@ -131,18 +130,17 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
             self.PressText.setStyleSheet(error_style_sheet) # set to fail colorscheme
 
 
-    def change_toggle_key(self, force_change = False):
+    def change_toggle_key(self):
         """
         Check if toggle key is valid and update it to a new hotkey
         """
         try:
-            new_toggle_key = self.TriggerText.text() # read new toggle key
-            if(new_toggle_key != self.toggle_key or force_change): # if toggle key isnt the same
-                keyboard.remove_hotkey(self.toggle_key) # remove previous hotkey
-                keyboard.add_hotkey(new_toggle_key, self.toggle_signal.emit, suppress = self.SuppressBox.isChecked()) # add new hotkey
-                self.toggle_key = new_toggle_key # update current hotkey to new hotkey
+            if self.hotkey != None:
+                keyboard.remove_hotkey(self.hotkey) # remove previous hotkey
+            self.hotkey = keyboard.add_hotkey(self.TriggerText.text(), self.toggle_signal.emit, suppress = self.SuppressBox.isChecked()) # add new hotkey
             self.TriggerText.setStyleSheet(success_style_sheet) # set success color
         except:
+            self.hotkey = None
             self.TriggerText.setStyleSheet(error_style_sheet) # set failure color
 
     def PseudoExclusive(self, b1, b2):
@@ -214,7 +212,6 @@ def main():
     if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'): # make application look better on high def screen
         QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv) # get application object
-    new_win()
     new_win()
     sys.exit(app.exec_()) # exit
 
