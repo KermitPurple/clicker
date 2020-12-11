@@ -126,7 +126,9 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         Remove the toggle key if it exists
         """
         if self.hotkey != None:
-            keyboard.remove_hotkey(self.hotkey) # remove previous hotkey
+            try:
+                keyboard.remove_hotkey(self.hotkey) # remove previous hotkey
+            except: pass
             self.hotkey = None
 
     def change_toggle_key(self):
@@ -236,7 +238,7 @@ def main():
         QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv) # get application object
     new_win()
-    # new_win()
+    new_win()
     sys.exit(app.exec_()) # exit
 
 if __name__ == "__main__": # if file is run directly
