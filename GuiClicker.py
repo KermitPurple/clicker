@@ -147,7 +147,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         """
         if self.mouse_hotkey != None:
             mouse.unhook(self.mouse_hotkey)
-            self.mouse_hotkey
+            self.mouse_hotkey = None
 
     def change_toggle_mouse(self):
         """
@@ -236,7 +236,7 @@ def main():
         QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv) # get application object
     new_win()
-    new_win()
+    # new_win()
     sys.exit(app.exec_()) # exit
 
 if __name__ == "__main__": # if file is run directly
