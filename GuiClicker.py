@@ -58,6 +58,8 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         """
         self.output_selection = self.OutputBox.currentText() # get value of output box
         self.PressText.setEnabled(self.output_selection == 'Keyboard' or self.output_selection == 'String') # enable press text if keyboard is selected
+        if self.output_selection == 'Keyboard':
+            self.change_press_text()
 
     def update_toggle_selection(self):
         """
