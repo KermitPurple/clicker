@@ -39,7 +39,6 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.PressText.textChanged.connect(self.change_press_text) # when press text is changed update press text
         self.toggle_signal.connect(self.toggle_running) # when thread is run, call self.toggle_running synchronously
         self.change_toggle_key() # set the hotkey
-        self.change_press_text() # get self.text
         self.update_repetitions_box() # repeats forever if box is checked
         self.InfiniteRepetitionsBox.stateChanged.connect(self.update_repetitions_box) # update repeats forever when box is changed
         self.update_repetitions() # get number of repititions
@@ -50,6 +49,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         self.ToggleBox.currentTextChanged.connect(self.update_toggle_selection) # connect getting value with change in index
         self.SuppressBox.stateChanged.connect(self.change_toggle_key)
         self.new_window_button.clicked.connect(new_win)
+        self.change_press_text() # get self.text
 
     def update_output_selection(self):
         """
@@ -57,7 +57,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         set enabled states of PressText
         """
         self.output_selection = self.OutputBox.currentText() # get value of output box
-        self.PressText.setEnabled(self.output_selection == 'Keyboard') # enable press text if keyboard is selected
+        self.PressText.setEnabled(self.output_selection == 'Keyboard' or self.output_selection == 'String') # enable press text if keyboard is selected
 
     def update_toggle_selection(self):
         """
@@ -69,7 +69,7 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         enabled = self.toggle_selection == 'Keyboard'
         self.TriggerText.setEnabled(enabled) # enable trigger text if keyboard is selected
         self.SuppressBox.setEnabled(enabled) # enable SuppressBox if keyboard is selected
-        if self.toggle_selection == 'Keyboard': # if keyboard is selected
+        if enabled: # if keyboard is selected
             self.remove_toggle_mouse() # remove the mouse hook
             self.change_toggle_key() # set the toggle key
         else: # keyboard is not selected
@@ -116,7 +116,8 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
         """
         try:
             text = self.PressText.text() # get text
-            keyboard.parse_hotkey(text) # fails if text is invalid
+            if self.output_selection != 'String':
+                keyboard.parse_hotkey(text) # fails if text is invalid
             self.text = text # if the text doesn't fail save it 
             self.PressText.setStyleSheet(success_style_sheet) # set to non fail colorscheme
         except:
@@ -188,6 +189,8 @@ class GuiClicker(Ui_AutoClicker, QtCore.QThread):
             if self.running: # if the clicker is on
                 if self.output_selection == 'Keyboard':
                     keyboard.send(self.text) # try to send the text in PressText
+                elif self.output_selection == 'String':
+                    keyboard.write(self.text) # write out the text literally
                 elif self.output_selection == 'Left Click':
                     mouse.click() # click with the mouse
                 elif self.output_selection == 'Right Click':

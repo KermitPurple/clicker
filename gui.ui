@@ -289,11 +289,16 @@
      <string>Left Click</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <item>
      <property name="text">
       <string>Keyboard</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>String</string>
      </property>
     </item>
     <item>
